@@ -1,0 +1,370 @@
+MPASM  5.35                         CINTA.ASM   4-14-2011  19:53:39         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+Warning[205]: Found directive in column 1. (__CONFIG)
+2007   3FF1           00001 __CONFIG _CP_OFF& _WDT_OFF& _PWRTE_ON& _XT_OSC
+Warning[205]: Found directive in column 1. (LIST)
+                      00002 LIST P = 16F84
+Warning[205]: Found directive in column 1. (INCLUDE)
+                      00003 INCLUDE <P16F84.INC>
+                      00001         LIST
+                      00002 ; P16F84.INC  Standard Header File, Version 2.00    Microchip Technology, Inc.
+                      00136         LIST
+                      00004 
+  00000003            00005 ESTATUS EQU     03H
+  00000005            00006 PORTA   EQU     05H
+  00000006            00007 PORTB   EQU     06H
+  00000085            00008 TRISA   EQU     85H
+  00000086            00009 TRISB   EQU     86H
+  0000000C            00010 CONT    EQU 0CH
+  0000000C            00011 PDel0   EQU 0C
+  0000000D            00012 PDel1   EQU 0D
+                      00013 
+0000                  00014                 ORG     00H
+0000   1683           00015                 BSF     ESTATUS,5;      Para ir al banco 1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0001   0185           00016                 CLRF    TRISA;          
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0002   0985           00017                 COMF    TRISA,1
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0003   1005           00018                 BCF             TRISA,0 
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0004   0186           00019                 CLRF    TRISB;          Para poner todas las patitas en 0 sin importar las que no uso (s
+                            alidas)
+0005   1283           00020                 BCF             ESTATUS,5;      Para volver al banco 0
+                      00021 
+0006   0185           00022 INICIO  CLRF    PORTA
+0007   0186           00023                 CLRF    PORTB;          Ponemos todo en OFF por seguridad (todo apagado)
+0008   1606           00024                 BSF             PORTB,4;        MT+(DER)= ON (condición inicial)
+                      00025                 
+0009   208C           00026 SW1             CALL    ESPAUSA
+000A   1885           00027                 BTFSC   PORTA,1;                Preguntamos SW1(sensor1)=0??
+000B   2809           00028                 GOTO    SW1
+000C   1686           00029                 BSF     PORTB,5;        LED ROJO=1
+000D   1005           00030                 BCF             PORTA,0;        Buzz OFF        
+000E   3001           00031                 MOVLW   01H
+000F   0086           00032                 MOVWF   PORTB; muestra el 1 en display
+0010   1686           00033                 BSF     PORTB,5;
+0011   20AB           00034                 CAll    DELAY
+0012   208C           00035                 CALL    ESPAUSA; pregunta si se apreto STOP
+0013   208A           00036                 CAll    CONTROL; pregunta si ya es 3 en el display
+0014   3002           00037                 MOVLW   02H
+0015   0086           00038                 MOVWF   PORTB; muestra el 2 en display
+0016   1686           00039                 BSF     PORTB,5;
+0017   20AB           00040                 CAll    DELAY
+0018   208C           00041                 CALL    ESPAUSA; pregunta si se apreto STOP
+0019   208A           00042                 CAll    CONTROL; pregunta si ya es 3 en el display
+MPASM  5.35                         CINTA.ASM   4-14-2011  19:53:39         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+001A   3003           00043                 MOVLW   03H
+001B   0086           00044                 MOVWF   PORTB; muestra el 3 en display
+001C   1686           00045                 BSF     PORTB,5;
+001D   20AB           00046                 CAll    DELAY
+001E   208C           00047                 CALL    ESPAUSA; pregunta si se apreto STOP
+001F   208A           00048                 CAll    CONTROL; pregunta si ya es 3 en el display
+                      00049                 ;----------------------------------------------------
+                      00050                 
+0020   300F           00051                 MOVLW   0FH
+0021   0086           00052                 MOVWF   PORTB; muestra NADA en display
+0022   1186           00053                 BCF             PORTB,3
+0023   20AB           00054                 CALL    DELAY
+0024   0186           00055                 CLRF    PORTB
+0025   1606           00056                 BSF             PORTB,4;        MT+(DER)= ON (condición inicial)
+0026   3001           00057                 MOVLW   01H
+0027   0086           00058                 MOVWF   PORTB; muestra el 1 en display
+0028   1606           00059                 BSF             PORTB,4;        MT+(DER)= ON 
+                      00060                 
+0029   208C           00061 SW2             CALL    ESPAUSA
+002A   1905           00062                 BTFSC   PORTA,2;        Preguntamos SW2=0?
+002B   2829           00063                 GOTO    SW2
+                      00064                 ;CALL   ESPAUSA;                No: preguntamos con SW4
+002C   0186           00065                 CLRF    PORTB
+002D   1706           00066                 BSF             PORTB,6;        Led amarillo=1
+002E   3003           00067                 MOVLW   03H
+002F   0086           00068                 MOVWF   PORTB; muestra el 3 en display
+0030   1706           00069                 BSF     PORTB,6;
+0031   20AB           00070                 CAll    DELAY
+0032   208C           00071                 CALL    ESPAUSA; pregunta si se apreto STOP
+0033   208A           00072                 CAll    CONTROL; pregunta si ya es 3 en el display
+0034   3002           00073                 MOVLW   02H
+0035   0086           00074                 MOVWF   PORTB; muestra el 2 en display
+0036   1706           00075                 BSF     PORTB,6;
+0037   20AB           00076                 CAll    DELAY
+0038   208C           00077                 CALL    ESPAUSA; pregunta si se apreto STOP
+0039   208A           00078                 CAll    CONTROL; pregunta si ya es 3 en el display
+003A   3001           00079                 MOVLW   01H
+003B   0086           00080                 MOVWF   PORTB; muestra el 1 en display
+003C   1706           00081                 BSF     PORTB,6;
+003D   20AB           00082                 CAll    DELAY
+003E   208C           00083                 CALL    ESPAUSA; pregunta si se apreto STOP
+003F   208A           00084                 CAll    CONTROL; pregunta si ya es 3 en el display
+0040   3000           00085                 MOVLW   00H
+0041   0086           00086                 MOVWF   PORTB; muestra el 0 en display
+0042   1706           00087                 BSF     PORTB,6;
+0043   20AB           00088                 CALL    DELAY
+0044   208C           00089                 CALL    ESPAUSA; pregunta si se apreto STOP
+0045   208A           00090                 CAll    CONTROL; pregunta si ya es 3 en el display
+0046   300F           00091                 MOVLW   0FH
+0047   0086           00092                 MOVWF   PORTB; muestra NADA en display
+0048   1706           00093                 BSF     PORTB,6;
+0049   1186           00094                 BCF             PORTB,3
+004A   20AB           00095                 CALL    DELAY
+MPASM  5.35                         CINTA.ASM   4-14-2011  19:53:39         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00096                 ;
+                      00097                 ;----------------------------------------------------
+004B   300F           00098                 MOVLW   0FH
+004C   0086           00099                 MOVWF   PORTB; muestra NADA en display
+004D   1586           00100                 BSF             PORTB,3
+004E   20AB           00101                 CALL    DELAY
+004F   3000           00102                 MOVLW   00H
+0050   0086           00103                 MOVWF   PORTB; muestra el 0 en display
+0051   1586           00104                 BSF             PORTB,3
+0052   1706           00105                 BSF     PORTB,6;
+0053   20AB           00106                 CAll    DELAY           
+0054   3009           00107                 MOVLW   09H
+0055   0086           00108                 MOVWF   PORTB; muestra el 1 en display
+0056   1706           00109                 BSF     PORTB,6;
+0057   20AB           00110                 CAll    DELAY
+0058   208C           00111                 CALL    ESPAUSA; pregunta si se apreto STOP
+0059   208A           00112                 CAll    CONTROL; pregunta si ya es 3 en el display
+005A   300A           00113                 MOVLW   0AH
+005B   0086           00114                 MOVWF   PORTB; muestra el 2 en display
+005C   1706           00115                 BSF     PORTB,6;
+005D   20AB           00116                 CAll    DELAY
+005E   208C           00117                 CALL    ESPAUSA; pregunta si se apreto STOP
+005F   208A           00118                 CAll    CONTROL; pregunta si ya es 3 en el display
+0060   1586           00119                 BSF             PORTB,3;        MT-(IZQ)= ON 
+0061   1706           00120                 BSF             PORTB,6;        Led amarillo=1
+                      00121                 ;----------------------------------------------------
+0062   0186           00122                 CLRF    PORTB
+0063   300F           00123                 MOVLW   0FH
+0064   0086           00124                 MOVWF   PORTB; muestra NADA en display
+0065   20AB           00125                 CALL DELAY
+0066   3002           00126                 MOVLW   02H
+0067   0086           00127                 MOVWF   PORTB; muestra el 2 en display
+0068   1186           00128                 BCF             PORTB,3
+0069   20AB           00129                 CAll    DELAY
+006A   208C           00130                 CALL    ESPAUSA; pregunta si se apreto STOP
+006B   208A           00131                 CAll    CONTROL; pregunta si ya es 3 en el display
+006C   1606           00132                 BSF             PORTB,4;        MT+(DER)= ON 
+                      00133                                 ;RETURN
+006D   208C           00134 SW3             CALL    ESPAUSA
+006E   1985           00135                 BTFSC   PORTA,3
+006F   286D           00136                 GOTO    SW3
+0070   0186           00137                 CLRF    PORTB
+0071   1786           00138                 BSF             PORTB,7
+0072   3001           00139                 MOVLW   01H
+0073   0086           00140                 MOVWF   PORTB; muestra el 1 en display
+0074   1786           00141                 BSF             PORTB,7
+0075   20AB           00142                 CAll    DELAY
+0076   208C           00143                 CALL    ESPAUSA; pregunta si se apreto STOP
+0077   208A           00144                 CAll    CONTROL; pregunta si ya es 3 en el display
+0078   3002           00145                 MOVLW   02H
+0079   0086           00146                 MOVWF   PORTB; muestra el 2 en display
+007A   1786           00147                 BSF             PORTB,7
+007B   20AB           00148                 CAll    DELAY
+MPASM  5.35                         CINTA.ASM   4-14-2011  19:53:39         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+007C   208C           00149                 CALL    ESPAUSA; pregunta si se apreto STOP
+007D   208A           00150                 CAll    CONTROL; pregunta si ya es 3 en el display
+007E   3003           00151                 MOVLW   03H
+007F   0086           00152                 MOVWF   PORTB; muestra el 3 en display
+0080   1786           00153                 BSF             PORTB,7
+0081   20AB           00154                 CAll    DELAY
+0082   208C           00155                 CALL    ESPAUSA; pregunta si se apreto STOP
+0083   208A           00156                 CAll    CONTROL; pregunta si ya es 3 en el display
+                      00157                 ;----------------------------------------------------
+0084   0186           00158                 CLRF    PORTB
+0085   300F           00159                 MOVLW   0FH
+0086   0086           00160                 MOVWF   PORTB; muestra NADA en display
+0087   1186           00161                 BCF             PORTB,3
+0088   20AB           00162                 CALL    DELAY
+0089   2806           00163                 GOTO    INICIO
+                      00164 
+                      00165 
+008A   3A03           00166 CONTROL XORLW 03H
+                      00167         ;       BTFSC   ESTATUS,2
+008B   0008           00168                 RETURN
+                      00169         ;       GOTO SW1
+                      00170                 ;call DELAY
+                      00171                 ;RETURN
+                      00172 
+008C                  00173 ESPAUSA 
+008C   1A05           00174                 BTFSC   PORTA,4;                        pregunta por primera vez sw4=0?
+008D   0008           00175                 RETURN;                                         si no se sale continua en lo que estaba
+008E   3000           00176                 MOVLW   00H;                            cargamos el 0 en w
+008F   0086           00177                 MOVWF   PORTB;                          mostramos el 0 en el disp
+Warning[207]: Found label after column 1. (VUELTA)
+0090                  00178                 VUELTA  
+0090   0185           00179                                 CLRF    PORTA
+0091   1405           00180                                 BSF             PORTA,0;         PRENDO EL BUZZ
+0092   1686           00181                                 BSF             PORTB,5;         si si, hace el parpadeo y muestra 0
+0093   209F           00182                                 CALL    DELAY2
+0094   1286           00183                                 BCF     PORTB,5
+0095   209F           00184                                 CALL    DELAY2
+0096   1A05           00185                                 BTFSC   PORTA,4;         vuelve a preguntar si sw4=0?
+0097   2890           00186                                 GOTO    VUELTA;     si no se volvio a apretar se queda parpadeando
+0098   0185           00187                 CLRF PORTA
+0099   0008           00188                 RETURN;                                         si si apretop de nuevo, vuelve a lo que 
+                            estaba haciendo
+                      00189 
+Warning[202]: Argument out of range.  Least significant bits used.
+009A   30E8           00190 DEMORA  MOVLW   3E8H
+009B   008C           00191                 MOVWF   CONT
+009C   0B8C           00192 OTRO    DECFSZ  CONT,1
+009D   289C           00193                 GOTO    OTRO
+009E   0008           00194                 RETURN
+                      00195  
+009F   30FD           00196 DELAY2  movlw     .253 ; 1 set numero de repeticion  (B)
+00A0   008C           00197        movwf     PDel0 ; 1
+00A1   30FD           00198 PLoop1  movlw     .253 ; 1 set numero de repeticion  (A)
+MPASM  5.35                         CINTA.ASM   4-14-2011  19:53:39         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00A2   008D           00199        movwf     PDel1 ; 1
+00A3   0064           00200 PLoop2  clrwdt ; 1 clear watchdog
+00A4   0064           00201        clrwdt ; 1 ciclo delay
+00A5   0B8D           00202        decfsz    PDel1,1 ; 1 + (1) es el tiempo 0  ? (A)
+00A6   28A3           00203        goto      PLoop2 ; 2 no, loop
+00A7   0B8C           00204        decfsz    PDel0,1 ; 1 + (1) es el tiempo 0  ? (B)
+00A8   28A1           00205        goto      PLoop1 ; 2 no, loop
+00A9   28AA           00206 PDelL1  goto PDelL2 ; 2 ciclos delay
+00AA                  00207 PDelL2  
+00AA   0008           00208        return ; 2+2 Fin.
+                      00209 
+00AB   209F           00210 DELAY   CALL DELAY2
+00AC   209F           00211                 CALL DELAY2
+00AD   209F           00212                 CALL DELAY2
+00AE   0008           00213                 RETURN
+                      00214 
+Warning[205]: Found directive in column 1. (END)
+                      00215 END
+MPASM  5.35                         CINTA.ASM   4-14-2011  19:53:39         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+C                                 00000000
+CONT                              0000000C
+CONTROL                           0000008A
+DC                                00000001
+DELAY                             000000AB
+DELAY2                            0000009F
+DEMORA                            0000009A
+EEADR                             00000009
+EECON1                            00000088
+EECON2                            00000089
+EEDATA                            00000008
+EEIE                              00000006
+EEIF                              00000004
+ESPAUSA                           0000008C
+ESTATUS                           00000003
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INICIO                            00000006
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+NOT_PD                            00000003
+NOT_RBPU                          00000007
+NOT_TO                            00000004
+OPTION_REG                        00000081
+OTRO                              0000009C
+PCL                               00000002
+PCLATH                            0000000A
+PDel0                             0000000C
+PDel1                             0000000D
+PDelL1                            000000A9
+PDelL2                            000000AA
+PLoop1                            000000A1
+PLoop2                            000000A3
+PORTA                             00000005
+PORTB                             00000006
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RBIE                              00000003
+RBIF                              00000000
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+STATUS                            00000003
+SW1                               00000009
+SW2                               00000029
+SW3                               0000006D
+MPASM  5.35                         CINTA.ASM   4-14-2011  19:53:39         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+TMR0                              00000001
+TRISA                             00000085
+TRISB                             00000086
+VUELTA                            00000090
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_CP_OFF                           00003FFF
+_CP_ON                            0000000F
+_HS_OSC                           00003FFE
+_LP_OSC                           00003FFC
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F84                           00000001
+__DEBUG                           1
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXX- ----------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   175
+Program Memory Words Free:   849
+
+
+Errors   :     0
+Warnings :     6 reported,     0 suppressed
+Messages :     4 reported,     0 suppressed
+
+

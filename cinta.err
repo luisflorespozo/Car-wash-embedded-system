@@ -1,0 +1,10 @@
+Warning[205] C:\USERS\WIN7\DESKTOP\CINTA PIZZAS\CINTA.ASM 1 : Found directive in column 1. (__CONFIG)
+Warning[205] C:\USERS\WIN7\DESKTOP\CINTA PIZZAS\CINTA.ASM 2 : Found directive in column 1. (LIST)
+Warning[205] C:\USERS\WIN7\DESKTOP\CINTA PIZZAS\CINTA.ASM 3 : Found directive in column 1. (INCLUDE)
+Message[302] C:\USERS\WIN7\DESKTOP\CINTA PIZZAS\CINTA.ASM 16 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\WIN7\DESKTOP\CINTA PIZZAS\CINTA.ASM 17 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\WIN7\DESKTOP\CINTA PIZZAS\CINTA.ASM 18 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\WIN7\DESKTOP\CINTA PIZZAS\CINTA.ASM 19 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[207] C:\USERS\WIN7\DESKTOP\CINTA PIZZAS\CINTA.ASM 178 : Found label after column 1. (VUELTA)
+Warning[202] C:\USERS\WIN7\DESKTOP\CINTA PIZZAS\CINTA.ASM 190 : Argument out of range.  Least significant bits used.
+Warning[205] C:\USERS\WIN7\DESKTOP\CINTA PIZZAS\CINTA.ASM 215 : Found directive in column 1. (END)

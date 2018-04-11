@@ -1,0 +1,49 @@
+__CONFIG _CP_OFF& _WDT_OFF& _PWRTE_ON& _XT_OSC
+LIST P = 16F84
+INCLUDE <P16F84.INC>
+
+ESTATUS EQU	03H
+PORTA	EQU	05H
+PORTB	EQU	06H
+TRISA	EQU	85H
+TRISB	EQU	86H
+CONT	EQU 0cH
+
+
+		ORG	00H
+		BSF 	ESTATUS,5;	Para ir al banco 1
+		CLRF	TRISA;		
+		;COMF	TRISA,1; 	Para poner todas las patitas en 1 sin importar las que no uso (entradas
+		CLRF	TRISB;		Para poner todas las patitas en 0 sin importar las que no uso (salidas)
+		BCF		ESTATUS,5;	Para volver al banco 0
+INICIO	CLRF	PORTB;		Ponemos todo en OFF por seguridad (todo apagado)
+		MOVLW	01H
+		MOVWF 	PORTB
+		CAll 	DELAY
+CAll 	AA
+		MOVLW	02H
+		MOVWF 	PORTB
+		CAll 	DELAY
+CAll 	AA
+		MOVLW	03H
+		MOVWF 	PORTB
+CAll 	AA
+		CAll 	DELAY
+
+
+AA 		BCF		PORTA,3
+		XORLW 03H
+		BTFSS	ESTATUS,2
+		RETURN
+		BSF		PORTA,3
+CALL DELAY
+		RETURN
+
+
+DELAY	MOVLW	64H
+		MOVWF 	CONT
+OTRO	DECFSZ	CONT,1
+		GOTO 	OTRO
+		RETURN
+		END
+		
