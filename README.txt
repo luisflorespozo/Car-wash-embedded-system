@@ -1,1 +1,2 @@
-A complete simulation of a car wash system programmed in ASSEMBLER with MPLAB with PIC microcontroller 16f184
+Complete embedded system design of a Car Wash system programmed in ASSEMBLER with MPlab and PIC microcontroller. 
+This project had both SW/HW development.
